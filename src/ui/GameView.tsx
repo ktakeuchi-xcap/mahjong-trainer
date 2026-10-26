@@ -88,6 +88,7 @@ export function GameView() {
   const [config, setConfig] = useState<GameConfig | null>(null);
   const [length, setLength] = useState<'tonpu' | 'hanchan'>('tonpu');
   const gameRef = useRef<Game | null>(null);
+  const handRef = useRef<HTMLDivElement>(null);
   const [, force] = useReducer((x: number) => x + 1, 0);
   const [selected, setSelected] = useState<number | null>(null);
   const [riichiMode, setRiichiMode] = useState(false);
@@ -147,6 +148,11 @@ export function GameView() {
     () => (game && pending === 'call' ? adviseCalls(game, me, game.pendingCalls.get(me)!) : null),
     [version, pending],
   );
+
+  // 自分の手番でツモ牌が画面外にならないよう、手牌を右端までスクロールする
+  useEffect(() => {
+    if (pending === 'self' && handRef.current) handRef.current.scrollLeft = handRef.current.scrollWidth;
+  }, [version, pending]);
 
   // 局・半荘の終了時に記録
   useEffect(() => {
@@ -229,7 +235,7 @@ export function GameView() {
         </div>
         {opponents.map((p) => <SeatView key={p} game={game} p={p} />)}
         <SeatView game={game} p={me} me />
-        <div className="hand" role="group" aria-label="あなたの手牌">
+        <div className="hand" ref={handRef} role="group" aria-label="あなたの手牌">
           {handSorted.map((id) => {
             const cls = [
               selected === id ? 'selected' : '',

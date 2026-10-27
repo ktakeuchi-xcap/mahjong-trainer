@@ -2,6 +2,7 @@ import type { Rating } from '../engine/eval';
 
 export interface Stats {
   quiz: { answered: number; best: number; good: number; bad: number; streak: number; bestStreak: number };
+  call: { answered: number; correct: number; streak: number; bestStreak: number };
   game: { games: number; decisions: number; best: number; good: number; bad: number; results: { date: string; length: string; rank: number; points: number; match: number }[] };
 }
 
@@ -9,6 +10,7 @@ const KEY = 'mahjong-trainer-stats-v1';
 
 const empty = (): Stats => ({
   quiz: { answered: 0, best: 0, good: 0, bad: 0, streak: 0, bestStreak: 0 },
+  call: { answered: 0, correct: 0, streak: 0, bestStreak: 0 },
   game: { games: 0, decisions: 0, best: 0, good: 0, bad: 0, results: [] },
 });
 
@@ -18,7 +20,7 @@ export function loadStats(): Stats {
     if (!raw) return empty();
     const s = JSON.parse(raw);
     const e = empty();
-    return { quiz: { ...e.quiz, ...s.quiz }, game: { ...e.game, ...s.game } };
+    return { quiz: { ...e.quiz, ...s.quiz }, call: { ...e.call, ...s.call }, game: { ...e.game, ...s.game } };
   } catch {
     return empty();
   }
@@ -40,6 +42,20 @@ export function recordQuiz(r: Rating): Stats {
   s.quiz[key(r)]++;
   s.quiz.streak = r === '最善' ? s.quiz.streak + 1 : 0;
   s.quiz.bestStreak = Math.max(s.quiz.bestStreak, s.quiz.streak);
+  save(s);
+  return s;
+}
+
+export function recordCall(correct: boolean): Stats {
+  const s = loadStats();
+  s.call.answered++;
+  if (correct) {
+    s.call.correct++;
+    s.call.streak++;
+    s.call.bestStreak = Math.max(s.call.bestStreak, s.call.streak);
+  } else {
+    s.call.streak = 0;
+  }
   save(s);
   return s;
 }

@@ -74,6 +74,17 @@ export function idsToCounts(ids: number[]): number[] {
   return c;
 }
 
+/** kind 配列に牌idを割り当てる（同じ kind は連番、5の1枚目は赤になる） */
+export class IdAssigner {
+  private used = new Array(NUM_KINDS).fill(0);
+  assign(kinds: number[]): number[] {
+    return kinds.map((k) => k * 4 + (this.used[k]++ % 4));
+  }
+  countOf(k: number): number {
+    return this.used[k];
+  }
+}
+
 /** 理牌順（kind→赤を先に） */
 export function sortIds(ids: number[]): number[] {
   return [...ids].sort((a, b) => a - b);

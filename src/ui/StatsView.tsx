@@ -31,6 +31,15 @@ export function StatsView() {
         <p className="small muted">正解 {q.best}・次善 {q.good}・不正解 {q.bad}</p>
       </div>
       <div className="card">
+        <h2>鳴き判断クイズ</h2>
+        <div className="stat-grid">
+          <div className="stat"><div className="v">{pct(s.call.correct, s.call.answered)}</div><div className="l">正答率</div></div>
+          <div className="stat"><div className="v">{s.call.answered}</div><div className="l">解答数</div></div>
+          <div className="stat"><div className="v">{s.call.bestStreak}</div><div className="l">最高連続正解</div></div>
+        </div>
+        <p className="small muted">正解 {s.call.correct}・不正解 {s.call.answered - s.call.correct}</p>
+      </div>
+      <div className="card">
         <h2>実戦</h2>
         <div className="stat-grid">
           <div className="stat"><div className="v">{pct(g.best, g.decisions)}</div><div className="l">最善手との一致率</div></div>

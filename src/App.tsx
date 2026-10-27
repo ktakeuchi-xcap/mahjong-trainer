@@ -3,12 +3,16 @@ import { QuizView } from './ui/QuizView';
 import { GameView } from './ui/GameView';
 import { StatsView } from './ui/StatsView';
 import { RulesView } from './ui/RulesView';
+import { LectureView } from './ui/LectureView';
+import { CallQuizView } from './ui/CallQuizView';
 
-type Tab = 'home' | 'quiz' | 'game' | 'stats' | 'rules';
+type Tab = 'home' | 'quiz' | 'callquiz' | 'lecture' | 'game' | 'stats' | 'rules';
 
 const TABS: { id: Tab; label: string; ic: string }[] = [
   { id: 'home', label: 'ホーム', ic: '⌂' },
   { id: 'quiz', label: '何切る', ic: '?' },
+  { id: 'callquiz', label: '鳴き', ic: '♪' },
+  { id: 'lecture', label: '講義', ic: '本' },
   { id: 'game', label: '実戦', ic: '▶' },
   { id: 'stats', label: '成績', ic: '▤' },
   { id: 'rules', label: 'ルール', ic: '§' },
@@ -55,6 +59,14 @@ export default function App() {
             <div className="title">何切るクイズ</div>
             <p className="small muted">14枚の手牌から最も牌効率の良い1枚を選ぶ。受け入れ枚数つきの解説で、正解の理由が分かります。</p>
           </button>
+          <button className="card menu-card" onClick={() => setTab('callquiz')}>
+            <div className="title">鳴き判断クイズ</div>
+            <p className="small muted">他家の打牌に対して「鳴く／鳴かない」を判断する。役・打点・速度・状況・守備の5つの軸で理由を解説します。</p>
+          </button>
+          <button className="card menu-card" onClick={() => setTab('lecture')}>
+            <div className="title">鳴き講義</div>
+            <p className="small muted">鳴きの判断基準を7レッスンで体系的に学ぶ。役が残るか、打点、速度、状況、守備、ポン／チー／カンの使い分けまで。</p>
+          </button>
           <button className="card menu-card" onClick={() => setTab('game')}>
             <div className="title">実戦アドバイス</div>
             <p className="small muted">CPU 3人と東風戦・半荘戦。切るたびに最善手と比べて評価し、リーチ者がいるときは安全度も加味します。</p>
@@ -70,6 +82,8 @@ export default function App() {
         </div>
       )}
       {tab === 'quiz' && <QuizView />}
+      {tab === 'callquiz' && <CallQuizView />}
+      {tab === 'lecture' && <LectureView onGoQuiz={() => setTab('callquiz')} />}
       {gameMounted && <div style={{ display: tab === 'game' ? 'block' : 'none' }}><GameView /></div>}
       {tab === 'stats' && <StatsView />}
       {tab === 'rules' && <RulesView />}

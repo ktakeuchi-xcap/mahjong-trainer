@@ -269,3 +269,30 @@ button { font: inherit; color: inherit; }
 .seg button.on { background: var(--accent); color: var(--accent-ink); }
 
 .log { font-size: 12px; color: var(--muted); max-height: 92px; overflow-y: auto; }
+
+/* 鳴き講義 */
+.lecture-example { margin: 10px 0; }
+.lecture-example .hand { margin: 0; }
+.lecture-discard { display: inline-flex; align-items: center; gap: 2px; }
+.lecture-discard .tile { width: 20px; }
+.lecture-key {
+  margin-top: 14px; padding: 10px 12px; border-radius: 10px;
+  background: var(--surface-2); border-left: 4px solid var(--accent);
+}
+.lecture-key-label { font-size: 11.5px; font-weight: 700; color: var(--accent); display: block; margin-bottom: 4px; }
+
+/* 鳴き判断クイズ */
+.call-riichi { color: var(--bad); font-weight: 700; margin: 8px 0 0; }
+.call-target { outline: 2px solid var(--bad); outline-offset: 1px; border-radius: 4px; }
+.call-choices { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.call-choices .btn { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.call-opt-tiles { display: inline-flex; align-items: center; gap: 1px; --hand-w: 20px; }
+.call-opt-tiles .tile { width: 20px; }
+.call-plus { margin: 0 2px; color: var(--muted); }
+.call-axes { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.call-axis { display: flex; gap: 8px; align-items: flex-start; }
+.call-axis p { margin: 0; font-size: 14px; }
+.call-axis-label {
+  flex: 0 0 auto; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px;
+  background: var(--surface-2); border: 1px solid var(--border); margin-top: 1px;
+}
